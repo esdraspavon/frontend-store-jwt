@@ -49,7 +49,9 @@ export default class Auth {
   }
 
   getIdToken() {
-    return this.idToken;
+    const idToken = localStorage.getItem("id_token");
+    if (!idToken) return new Error("Hubo un error de authenticacion");
+    return idToken;
   }
 
   setSession(authResult) {

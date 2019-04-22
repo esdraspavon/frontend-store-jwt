@@ -27,7 +27,7 @@ export const makeMainRoutes = () => {
     <Router history={history}>
       <div className="container">
         <Header />
-        <Navbar />
+        <Navbar auth={auth} />
 
         <Route
           exact
