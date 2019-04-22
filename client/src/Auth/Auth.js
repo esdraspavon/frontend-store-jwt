@@ -45,7 +45,7 @@ export default class Auth {
   getAccessToken() {
     const accessToken = localStorage.getItem("access_token");
     if (!accessToken) return new Error("Hubo un error de authenticacion");
-    return this.accessToken;
+    return accessToken;
   }
 
   getIdToken() {
@@ -55,9 +55,15 @@ export default class Auth {
   setSession(authResult) {
     // Set isLoggedIn flag in localStorage
     localStorage.setItem("isLoggedIn", "true");
+    localStorage.setItem("access_token", authResult.accessToken);
+    localStorage.setItem("id_token", authResult.idToken);
+    // let expiresAt = authResult.expiresIn * 1000 + new Date().getTime();
+    let expiresAt = JSON.stringify(
+      authResult.expiresIn * 1000 + new Date().getTime()
+    );
+    localStorage.setItem("expires_at", expiresAt);
 
     // Set the time that the access token will expire at
-    let expiresAt = authResult.expiresIn * 1000 + new Date().getTime();
     this.accessToken = authResult.accessToken;
     this.idToken = authResult.idToken;
     this.expiresAt = expiresAt;
@@ -82,6 +88,9 @@ export default class Auth {
 
   logout() {
     // Remove tokens and expiry time
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("id_token");
+    localStorage.removeItem("expires_at");
     this.accessToken = null;
     this.idToken = null;
     this.expiresAt = 0;
@@ -100,7 +109,8 @@ export default class Auth {
   isAuthenticated() {
     // Check whether the current time is past the
     // access token's expiry time
-    let expiresAt = this.expiresAt;
+    let expiresAt = JSON.parse(localStorage.getItem("expires_at"));
+    //let expiresAt = this.expiresAt;
     return new Date().getTime() < expiresAt;
   }
 }
