@@ -35,7 +35,11 @@ export const makeMainRoutes = () => {
           render={props => <Products auth={auth} {...props} />}
         />
         <Route exact path="/nosotros" component={AboutUs} />
-        <Route exact path="/contacto" component={Contact} />
+        <Route
+          exact
+          path="/contacto"
+          render={props => <Contact auth={auth} />}
+        />
 
         <Route
           exact

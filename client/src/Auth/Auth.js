@@ -34,6 +34,7 @@ export default class Auth {
     this.auth0.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.setSession(authResult);
+        history.replace("/productos");
       } else if (err) {
         history.replace("/productos");
         console.log(err);
@@ -100,9 +101,9 @@ export default class Auth {
     // Remove isLoggedIn flag from localStorage
     localStorage.removeItem("isLoggedIn");
 
-    this.auth0.logout({
-      return_to: window.location.origin
-    });
+    // this.auth0.logout({
+    //   return_to: window.location.origin
+    // });
 
     // navigate to the home route
     history.replace("/productos");

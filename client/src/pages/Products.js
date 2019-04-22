@@ -25,6 +25,31 @@ class Products extends Component {
   login = () => {
     this.props.auth.login();
   };
+  searchProduct = query => {
+    if (query.length > 3) {
+      //Obtener una copia del state
+      let products = [...this.state.products];
+      //filtrar
+      let result;
+      result = products.filter(
+        product =>
+          product.name.toLowerCase().indexOf(query.toLowerCase()) !== -1
+      );
+      this.setState({
+        query,
+        products: result
+      });
+    } else {
+      this.setState(
+        {
+          query: ""
+        },
+        () => {
+          this.queryAPI();
+        }
+      );
+    }
+  };
   render() {
     const { isAuthenticated } = this.props.auth;
     return (
@@ -39,7 +64,7 @@ class Products extends Component {
         ) : (
           <React.Fragment>
             <h2>Nuestros productos</h2>
-            <Search search={this.props.searchProduct} />
+            <Search search={this.searchProduct} />
             <ul className="lista-productos">
               {Object.keys(this.state.products).map(product => (
                 <Product key={product} data={this.state.products[product]} />
