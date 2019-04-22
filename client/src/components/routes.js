@@ -11,7 +11,6 @@ import Navbar from "./Navbar";
 import Header from "./Header";
 import Products from "../pages/Products";
 import AboutUs from "../pages/AboutUs";
-import Error from "../pages/Error";
 import Contact from "../pages/Contact";
 import ProductDetail from "../pages/ProductDetail";
 
